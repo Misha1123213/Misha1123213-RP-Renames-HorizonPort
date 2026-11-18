@@ -1,0 +1,9 @@
+{
+  "game": "26.3",
+  "hooks": 21,
+  "horizon": "fdc87aecdbd116bf1e08adcd062fcbaea8c2e2ca",
+  "id": "rp_renames",
+  "mixins": "e8cd0aa38cffef49cb2e088ef716baa107148c02",
+  "schema": 1,
+  "version": "0.1.0"
+}

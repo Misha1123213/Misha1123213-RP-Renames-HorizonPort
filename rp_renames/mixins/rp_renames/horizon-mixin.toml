@@ -1,0 +1,104 @@
+[mod]
+id = "rp_renames"
+version = "0.1.0"
+priority = 100
+
+[compatibility]
+horizon_revision = "fdc87aecdbd116bf1e08adcd062fcbaea8c2e2ca"
+
+[[module]]
+id = "runtime"
+file = "crates/horizon-client/src/game.rs"
+name = "rp_renames"
+source = "runtime.rs"
+
+[[injection]]
+id = "screen_opening"
+kind = "HEAD"
+hook = "screen_opening"
+hook_version = 1
+helper = "screen_opening.rs"
+bindings = [
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+]
+
+[[injection]]
+id = "screen_closing"
+kind = "HEAD"
+hook = "screen_closing"
+hook_version = 1
+helper = "screen_closing.rs"
+bindings = [
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+]
+
+[[injection]]
+id = "hud"
+kind = "HEAD"
+hook = "hud"
+hook_version = 1
+helper = "hud.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "batch", ty = "&mut horizon_client::mod_api::HudBatch", value = "batch" },
+  { name = "corners", ty = "&mut horizon_client::mod_api::Corners", value = "corners" },
+]
+
+[[injection]]
+id = "screen_click"
+kind = "HEAD"
+hook = "screen_click"
+hook_version = 1
+helper = "screen_click.rs"
+bindings = [
+  { name = "block", ty = "&str", value = "block" },
+  { name = "data", ty = "&[i32]", value = "data" },
+  { name = "at", ty = "[f32; 2]", value = "at" },
+  { name = "right", ty = "bool", value = "right" },
+]
+
+[[injection]]
+id = "screen_scroll"
+kind = "HEAD"
+hook = "screen_mouse_scrolled_pre"
+hook_version = 1
+helper = "screen_scroll.rs"
+bindings = [
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+  { name = "scroll", ty = "[f64; 2]", value = "scroll" },
+  { name = "canceled", ty = "&mut bool", value = "&mut *canceled" },
+]
+
+[[injection]]
+id = "mods"
+kind = "HEAD"
+hook = "mods"
+hook_version = 1
+helper = "list.rs"
+bindings = [
+  { name = "mods", ty = "&mut Vec<crate::game::native_hooks::NativeMod>", value = "mods" },
+]
+
+[[injection]]
+id = "settings"
+kind = "HEAD"
+hook = "settings"
+hook_version = 1
+helper = "settings.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "mod_id", ty = "&str", value = "mod_id" },
+  { name = "buttons", ty = "&mut Vec<String>", value = "buttons" },
+]
+
+[[injection]]
+id = "settings_click"
+kind = "HEAD"
+hook = "settings_click"
+hook_version = 1
+helper = "click.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "mod_id", ty = "&str", value = "mod_id" },
+  { name = "button", ty = "usize", value = "button" },
+]
